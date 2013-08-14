@@ -539,14 +539,19 @@ public class SoundRecorder extends Activity
                 "count(*)"
         };
         Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId);
-        Cursor cur = resolver.query(uri, cols, null, null, null);
-        cur.moveToFirst();
-        final int base = cur.getInt(0);
-        cur.close();
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, Integer.valueOf(base + audioId));
-        values.put(MediaStore.Audio.Playlists.Members.AUDIO_ID, audioId);
-        resolver.insert(uri, values);
+        Cursor cur = null;
+        try {
+			cur = resolver.query(uri, cols, null, null, null);
+            cur.moveToFirst();
+            final int base = cur.getInt(0);
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, Integer.valueOf(base + audioId));
+            values.put(MediaStore.Audio.Playlists.Members.AUDIO_ID, audioId);
+            resolver.insert(uri, values);
+        } finally {
+            if (cur != null)
+                cur.close();
+        }
     }
     
     /*
@@ -557,19 +562,25 @@ public class SoundRecorder extends Activity
         final String[] ids = new String[] { MediaStore.Audio.Playlists._ID };
         final String where = MediaStore.Audio.Playlists.NAME + "=?";
         final String[] args = new String[] { res.getString(R.string.audio_db_playlist_name) };
-        Cursor cursor = query(uri, ids, where, args, null);
-        if (cursor == null) {
-            Log.v(TAG, "query returns null");
-        }
-        int id = -1;
-        if (cursor != null) {
-            cursor.moveToFirst();
-            if (!cursor.isAfterLast()) {
-                id = cursor.getInt(0);
+        Cursor cursor = null;
+        try {
+            cursor = query(uri, ids, where, args, null);
+            if (cursor == null) {
+                Log.v(TAG, "query returns null");
             }
-        }
-        cursor.close();
-        return id;
+            int id = -1;
+            if (cursor != null) {
+                cursor.moveToFirst();
+                if (!cursor.isAfterLast()) {
+                    id = cursor.getInt(0);
+                }
+            }
+            return id;
+		} finally {
+			if (cursor != null) {
+                cursor.close();
+			}
+		}
     }
     
     /*
