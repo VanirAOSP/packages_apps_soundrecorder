@@ -470,12 +470,6 @@ public class SoundRecorder extends Activity
                     if (AUDIO_AMR.equals(mRequestedType)) {
                         mRemainingTimeCalculator.setBitRate(BITRATE_AMR);
                         mRecorder.startRecording(MediaRecorder.OutputFormat.RAW_AMR, ".amr", this, mAudioSourceType, MediaRecorder.AudioEncoder.AMR_NB);
-                    } else if (AUDIO_EVRC.equals(mRequestedType)) {
-                        mRemainingTimeCalculator.setBitRate(BITRATE_AMR);
-                        mRecorder.startRecording(MediaRecorder.OutputFormat.QCP, ".qcp", this, mAudioSourceType, MediaRecorder.AudioEncoder.EVRC);
-                    } else if (AUDIO_QCELP.equals(mRequestedType)) {
-                        mRemainingTimeCalculator.setBitRate(BITRATE_AMR);
-                        mRecorder.startRecording(MediaRecorder.OutputFormat.QCP, ".qcp", this, mAudioSourceType, MediaRecorder.AudioEncoder.QCELP);
                     } else if (AUDIO_3GPP.equals(mRequestedType)) {
                         mRemainingTimeCalculator.setBitRate(BITRATE_3GPP);
                         mRecorder.startRecording(MediaRecorder.OutputFormat.THREE_GPP, ".3gpp", this, mAudioSourceType, MediaRecorder.AudioEncoder.AMR_NB);
@@ -489,16 +483,6 @@ public class SoundRecorder extends Activity
                           mRecorder.setSamplingRate(SAMPLERATE_MULTI_CH);
                           mAudioSourceType = MediaRecorder.AudioSource.MIC;
                           mRecorder.startRecording(MediaRecorder.OutputFormat.THREE_GPP, ".3gpp", this, mAudioSourceType, MediaRecorder.AudioEncoder.AAC);
-                        } else {
-                          throw new IllegalArgumentException("Invalid output file type requested");
-                        }
-                    } else if (AUDIO_WAVE_6CH_LPCM.equals(mRequestedType)) {//WAVE LPCM  6-channel recording
-                        if (true == bSSRSupported) {
-                          mRemainingTimeCalculator.setBitRate(BITRATE_3GPP);
-                          mRecorder.setChannels(6);
-                          mRecorder.setSamplingRate(SAMPLERATE_MULTI_CH);
-                          mAudioSourceType = MediaRecorder.AudioSource.MIC;
-                          mRecorder.startRecording(MediaRecorder.OutputFormat.WAVE, ".wav", this, mAudioSourceType, MediaRecorder.AudioEncoder.LPCM);
                         } else {
                           throw new IllegalArgumentException("Invalid output file type requested");
                         }
