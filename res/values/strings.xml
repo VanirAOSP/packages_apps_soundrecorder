@@ -59,7 +59,7 @@
     <string name="audio_db_album_name">Audio recordings</string>
     <!-- all recordings will show up in the media database in a playlist with this name -->
     <string name="audio_db_playlist_name">My recordings</string>
-   
+
     <!-- shown as the message in a dialog when an error occured because of an error accessing the sd card [CHAR LIMIT=NONE] -->
     <string name="error_sdcard_access" product="nosdcard">Can\'t access USB storage.</string>
     <!-- shown as the message in a dialog when an error occured because of an error accessing the sd card -->
