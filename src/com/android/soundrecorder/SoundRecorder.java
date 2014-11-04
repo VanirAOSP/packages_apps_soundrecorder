@@ -508,17 +508,8 @@ public class SoundRecorder extends Activity
      * the MediaPlaybackService to pause playback.
      */
     private void stopAudioPlayback() {
-        // Shamelessly copied from MediaPlaybackService.java, which
-        // should be public, but isn't.
-        Intent i = new Intent("com.android.music.musicservicecommand");
-        i.putExtra("command", "pause");
-        mAudioManager.requestAudioFocus(mAudioFocusListener, AudioManager.STREAM_MUSIC,
-                    AudioManager.AUDIOFOCUS_GAIN);
-        sendBroadcast(i);
-        try{
-           Thread.sleep(STOP_WAIT);
-        } catch (InterruptedException ex) {
-        }
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
     }
 
     private OnAudioFocusChangeListener mAudioFocusListener = new OnAudioFocusChangeListener() {
