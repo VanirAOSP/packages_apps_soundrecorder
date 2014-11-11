@@ -861,6 +861,17 @@ public class SoundRecorder extends Activity
                     openOptionDialog(SETTING_TYPE_STORAGE_LOCATION);
                 }
                 break;
+            case R.id.menu_item_view_recordings:
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setClassName("com.cyanogenmod.filemanager",
+                        "com.cyanogenmod.filemanager.activities.ShortcutActivity");
+                intent.putExtra("extra_shortcut_type", "navigate");
+                intent.putExtra("extra_shortcut_fso", mStoragePath);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -1536,6 +1547,10 @@ public class SoundRecorder extends Activity
                 break;
             case Recorder.INTERNAL_ERROR:
                 message = res.getString(R.string.error_app_internal);
+                isExit = true;
+                break;
+            case Recorder.INTERNAL_ERROR_RECORDER_PREPARE:
+                message = res.getString(R.string.error_app_internal_recorder);
                 isExit = true;
                 break;
             case Recorder.UNSUPPORTED_FORMAT:
